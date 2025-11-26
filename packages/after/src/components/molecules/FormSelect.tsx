@@ -1,6 +1,14 @@
-import React from 'react';
+import * as React from "react";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
+import { Label } from "@/components/ui/label";
+import { cn } from "@/lib/utils";
 
-// Select Component - Inconsistent with Input component
 interface Option {
   value: string;
   label: string;
@@ -8,64 +16,89 @@ interface Option {
 
 interface FormSelectProps {
   name: string;
-  value: string;
-  onChange: (value: string) => void;
-  options: Option[];
   label?: string;
-  placeholder?: string;
-  required?: boolean;
-  disabled?: boolean;
+  description?: string; // helpText를 description으로 통일
   error?: string;
-  helpText?: string;
-  size?: 'sm' | 'md' | 'lg';
+  value?: string;
+  onValueChange?: (value: string) => void;
+  placeholder?: string;
+  disabled?: boolean;
+  required?: boolean;
+  options: Option[];
+  className?: string;
 }
 
-export const FormSelect: React.FC<FormSelectProps> = ({
-  name,
-  value,
-  onChange,
-  options,
-  label,
-  placeholder = 'Select an option...',
-  required = false,
-  disabled = false,
-  error,
-  helpText,
-  size = 'md',
-}) => {
-  void size; // Keep for API consistency but not used in rendering
-  const selectClasses = ['form-select', error && 'error'].filter(Boolean).join(' ');
-  const helperClasses = ['form-helper-text', error && 'error'].filter(Boolean).join(' ');
+export const FormSelect = React.forwardRef<HTMLButtonElement, FormSelectProps>(
+  (
+    {
+      name,
+      label,
+      description,
+      error,
+      value,
+      onValueChange,
+      placeholder,
+      disabled,
+      required,
+      options,
+      className,
+    },
+    ref
+  ) => {
+    return (
+      <div className="space-y-2">
+        {label && (
+          <Label htmlFor={name} className={cn(error && "text-destructive")}>
+            {label}
+            {required && <span className="text-destructive ml-1">*</span>}
+          </Label>
+        )}
 
-  return (
-    <div className="form-group">
-      {label && (
-        <label className="form-label">
-          {label}
-          {required && <span style={{ color: '#d32f2f' }}>*</span>}
-        </label>
-      )}
+        <Select value={value} onValueChange={onValueChange} disabled={disabled}>
+          <SelectTrigger
+            id={name}
+            ref={ref}
+            className={cn(
+              error && "border-destructive focus:ring-destructive",
+              className
+            )}
+            aria-invalid={error ? "true" : "false"}
+            aria-describedby={
+              error
+                ? `${name}-error`
+                : description
+                ? `${name}-description`
+                : undefined
+            }
+          >
+            <SelectValue placeholder={placeholder} />
+          </SelectTrigger>
+          <SelectContent>
+            {options.map((option) => (
+              <SelectItem key={option.value} value={option.value}>
+                {option.label}
+              </SelectItem>
+            ))}
+          </SelectContent>
+        </Select>
 
-      <select
-        name={name}
-        value={value}
-        onChange={(e) => onChange(e.target.value)}
-        required={required}
-        disabled={disabled}
-        className={selectClasses}
-      >
-        <option value="" disabled>
-          {placeholder}
-        </option>
-        {options.map((option) => (
-          <option key={option.value} value={option.value}>
-            {option.label}
-          </option>
-        ))}
-      </select>
+        {error && (
+          <p id={`${name}-error`} className="text-sm text-destructive">
+            {error}
+          </p>
+        )}
 
-      {error && <span className={helperClasses}>{error}</span>}
-      {helpText && !error && <span className="form-helper-text">{helpText}</span>}
-    </div>
-  );
-};
+        {description && !error && (
+          <p
+            id={`${name}-description`}
+            className="text-sm text-muted-foreground"
+          >
+            {description}
+          </p>
+        )}
+      </div>
+    );
+  }
+);
+
+FormSelect.displayName = "FormSelect";
