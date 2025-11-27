@@ -1,27 +1,28 @@
-import React, { useState, useEffect } from 'react';
-import { Badge } from '../atoms/Badge';
-import { Button } from '../atoms/Button';
+import * as React from "react";
+import {
+  Table as ShadcnTable,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from "@/components/ui/table";
+import { Badge } from "../atoms/Badge";
+import { Button } from "@/components/ui/button";
 
 interface Column {
   key: string;
   header: string;
   width?: string;
-  sortable?: boolean;
 }
 
-// 🚨 Bad Practice: UI 컴포넌트가 도메인 타입을 알고 있음
 interface TableProps {
-  columns?: Column[];
-  data?: any[];
+  columns: Column[];
+  data: any[];
   striped?: boolean;
-  bordered?: boolean;
   hover?: boolean;
-  pageSize?: number;
-  searchable?: boolean;
-  sortable?: boolean;
   onRowClick?: (row: any) => void;
-
-  // 🚨 도메인 관심사 추가
+  
   entityType?: 'user' | 'post';
   onEdit?: (item: any) => void;
   onDelete?: (id: number) => void;
@@ -32,13 +33,9 @@ interface TableProps {
 
 export const Table: React.FC<TableProps> = ({
   columns,
-  data = [],
+  data,
   striped = false,
-  bordered = false,
   hover = false,
-  pageSize = 10,
-  searchable = false,
-  sortable = false,
   onRowClick,
   entityType,
   onEdit,
@@ -47,74 +44,15 @@ export const Table: React.FC<TableProps> = ({
   onArchive,
   onRestore,
 }) => {
-  const [tableData, setTableData] = useState<any[]>(data);
-  const [currentPage, setCurrentPage] = useState(1);
-  const [searchTerm, setSearchTerm] = useState('');
-  const [sortColumn, setSortColumn] = useState('');
-  const [sortDirection, setSortDirection] = useState<'asc' | 'desc'>('asc');
-
-  useEffect(() => {
-    setTableData(data);
-  }, [data]);
-
-  const handleSort = (columnKey: string) => {
-    if (!sortable) return;
-
-    const newDirection = sortColumn === columnKey && sortDirection === 'asc' ? 'desc' : 'asc';
-    setSortColumn(columnKey);
-    setSortDirection(newDirection);
-
-    const sorted = [...tableData].sort((a, b) => {
-      const aVal = a[columnKey];
-      const bVal = b[columnKey];
-
-      if (typeof aVal === 'number' && typeof bVal === 'number') {
-        return newDirection === 'asc' ? aVal - bVal : bVal - aVal;
-      }
-
-      return newDirection === 'asc'
-        ? String(aVal).localeCompare(String(bVal))
-        : String(bVal).localeCompare(String(aVal));
-    });
-
-    setTableData(sorted);
-  };
-
-  const filteredData = searchable && searchTerm
-    ? tableData.filter(row =>
-        Object.values(row).some(val =>
-          String(val).toLowerCase().includes(searchTerm.toLowerCase())
-        )
-      )
-    : tableData;
-
-  const paginatedData = filteredData.slice(
-    (currentPage - 1) * pageSize,
-    currentPage * pageSize
-  );
-
-  const totalPages = Math.ceil(filteredData.length / pageSize);
-
-  const tableClasses = [
-    'table',
-    striped && 'table-striped',
-    bordered && 'table-bordered',
-    hover && 'table-hover',
-  ].filter(Boolean).join(' ');
-
-  const actualColumns = columns || (tableData[0] ? Object.keys(tableData[0]).map(key => ({ key, header: key, width: undefined })) : []);
-
-  // 🚨 Bad Practice: Table 컴포넌트가 도메인별 렌더링 로직을 알고 있음
+  // 도메인별 셀 렌더링 (임시 - 나중에 부모로 이동 예정)
   const renderCell = (row: any, columnKey: string) => {
     const value = row[columnKey];
 
-    // 도메인별 특수 렌더링
     if (entityType === 'user') {
       if (columnKey === 'role') {
         return <Badge userRole={value} showIcon />;
       }
       if (columnKey === 'status') {
-        // User status를 Badge status로 변환
         const badgeStatus =
           value === 'active' ? 'published' :
           value === 'inactive' ? 'draft' : 'rejected';
@@ -125,7 +63,7 @@ export const Table: React.FC<TableProps> = ({
       }
       if (columnKey === 'actions') {
         return (
-          <div style={{ display: 'flex', gap: '8px' }}>
+          <div className="flex gap-2">
             <Button size="sm" variant="primary" onClick={() => onEdit?.(row)}>
               수정
             </Button>
@@ -154,34 +92,22 @@ export const Table: React.FC<TableProps> = ({
       }
       if (columnKey === 'actions') {
         return (
-          <div style={{ display: 'flex', gap: '8px', flexWrap: 'wrap' }}>
+          <div className="flex gap-2 flex-wrap">
             <Button size="sm" variant="primary" onClick={() => onEdit?.(row)}>
               수정
             </Button>
             {row.status === 'draft' && (
-              <Button
-                size="sm"
-                variant="success"
-                onClick={() => onPublish?.(row.id)}
-              >
+              <Button size="sm" variant="success" onClick={() => onPublish?.(row.id)}>
                 게시
               </Button>
             )}
             {row.status === 'published' && (
-              <Button
-                size="sm"
-                variant="secondary"
-                onClick={() => onArchive?.(row.id)}
-              >
+              <Button size="sm" variant="secondary" onClick={() => onArchive?.(row.id)}>
                 보관
               </Button>
             )}
             {row.status === 'archived' && (
-              <Button
-                size="sm"
-                variant="primary"
-                onClick={() => onRestore?.(row.id)}
-              >
+              <Button size="sm" variant="primary" onClick={() => onRestore?.(row.id)}>
                 복원
               </Button>
             )}
@@ -193,107 +119,38 @@ export const Table: React.FC<TableProps> = ({
       }
     }
 
-    // React Element면 그대로 렌더링
-    if (React.isValidElement(value)) {
-      return value;
-    }
-
     return value;
   };
 
   return (
-    <div className="table-container">
-      {searchable && (
-        <div style={{ marginBottom: '16px' }}>
-          <input
-            type="text"
-            placeholder="검색..."
-            value={searchTerm}
-            onChange={(e) => setSearchTerm(e.target.value)}
-            style={{
-              padding: '8px 12px',
-              border: '1px solid #ddd',
-              borderRadius: '4px',
-              width: '300px',
-            }}
-          />
-        </div>
-      )}
-
-      <table className={tableClasses}>
-        <thead>
-          <tr>
-            {actualColumns.map((column) => (
-              <th
-                key={column.key}
-                style={column.width ? { width: column.width } : undefined}
-                onClick={() => sortable && handleSort(column.key)}
-              >
-                <div style={{ display: 'flex', alignItems: 'center', gap: '4px', cursor: sortable ? 'pointer' : 'default' }}>
-                  {column.header}
-                  {sortable && sortColumn === column.key && (
-                    <span>{sortDirection === 'asc' ? '↑' : '↓'}</span>
-                  )}
-                </div>
-              </th>
-            ))}
-          </tr>
-        </thead>
-        <tbody>
-          {paginatedData.map((row, rowIndex) => (
-            <tr
-              key={rowIndex}
-              onClick={() => onRowClick?.(row)}
-              style={{ cursor: onRowClick ? 'pointer' : 'default' }}
+    <ShadcnTable>
+      <TableHeader>
+        <TableRow>
+          {columns.map((column) => (
+            <TableHead
+              key={column.key}
+              style={column.width ? { width: column.width } : undefined}
             >
-              {actualColumns.map((column) => (
-                <td key={column.key}>
-                  {entityType ? renderCell(row, column.key) : row[column.key]}
-                </td>
-              ))}
-            </tr>
+              {column.header}
+            </TableHead>
           ))}
-        </tbody>
-      </table>
-
-      {totalPages > 1 && (
-        <div style={{
-          marginTop: '16px',
-          display: 'flex',
-          gap: '8px',
-          justifyContent: 'center',
-        }}>
-          <button
-            onClick={() => setCurrentPage(p => Math.max(1, p - 1))}
-            disabled={currentPage === 1}
-            style={{
-              padding: '6px 12px',
-              border: '1px solid #ddd',
-              background: 'white',
-              borderRadius: '4px',
-              cursor: currentPage === 1 ? 'not-allowed' : 'pointer',
-            }}
+        </TableRow>
+      </TableHeader>
+      <TableBody>
+        {data.map((row, rowIndex) => (
+          <TableRow
+            key={rowIndex}
+            onClick={() => onRowClick?.(row)}
+            className={hover ? "cursor-pointer" : ""}
           >
-            이전
-          </button>
-          <span style={{ padding: '6px 12px' }}>
-            {currentPage} / {totalPages}
-          </span>
-          <button
-            onClick={() => setCurrentPage(p => Math.min(totalPages, p + 1))}
-            disabled={currentPage === totalPages}
-            style={{
-              padding: '6px 12px',
-              border: '1px solid #ddd',
-              background: 'white',
-              borderRadius: '4px',
-              cursor: currentPage === totalPages ? 'not-allowed' : 'pointer',
-            }}
-          >
-            다음
-          </button>
-        </div>
-      )}
-    </div>
+            {columns.map((column) => (
+              <TableCell key={column.key}>
+                {entityType ? renderCell(row, column.key) : row[column.key]}
+              </TableCell>
+            ))}
+          </TableRow>
+        ))}
+      </TableBody>
+    </ShadcnTable>
   );
 };
