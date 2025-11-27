@@ -4,26 +4,26 @@ import { cva, type VariantProps } from "class-variance-authority"
 import { cn } from "@/lib/utils"
 
 const badgeVariants = cva(
-  "inline-flex items-center rounded-md border px-2.5 py-0.5 text-xs font-semibold transition-colors focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2",
+  "inline-flex items-center rounded-[3px] border px-2.5 py-0.5 text-xs font-semibold transition-colors focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2",
   {
     variants: {
       variant: {
         default:
-          "border-transparent bg-primary text-primary-foreground shadow hover:bg-primary/80",
+          "border-transparent bg-[#1976d2] text-white shadow hover:bg-[#1565c0]",
         primary:
-          "border-transparent bg-primary text-primary-foreground shadow hover:bg-primary/80",
+          "border-transparent bg-[#1976d2] text-white shadow hover:bg-[#1565c0]",
         secondary:
-          "border-transparent bg-secondary text-secondary-foreground hover:bg-secondary/80",
+          "border-transparent bg-[#757575] text-white hover:bg-[#616161]",
         success:
-          "border-transparent bg-green-600 text-white shadow hover:bg-green-700",
+          "border-transparent bg-[#388e3c] text-white shadow hover:bg-[#2e7d32]",
         danger:
-          "border-transparent bg-destructive text-destructive-foreground shadow hover:bg-destructive/80",
+          "border-transparent bg-[#d32f2f] text-white shadow hover:bg-[#c62828]",
         warning:
-          "border-transparent bg-yellow-500 text-white shadow hover:bg-yellow-600",
+          "border-transparent bg-[#f57c00] text-white shadow hover:bg-[#ef6c00]",
         info:
-          "border-transparent bg-blue-500 text-white shadow hover:bg-blue-600",
+          "border-transparent bg-[#0288d1] text-white shadow hover:bg-[#0277bd]",
         destructive:
-          "border-transparent bg-destructive text-destructive-foreground shadow hover:bg-destructive/80",
+          "border-transparent bg-[#d32f2f] text-white shadow hover:bg-[#c62828]",
         outline: "text-foreground",
       },
       size: {
@@ -53,11 +53,13 @@ export interface BadgeProps
   showIcon?: boolean;
 }
 
+import { Check, X, AlertTriangle, Info, Clock, FileText, User, Shield, ShieldAlert } from "lucide-react";
+
 function Badge({ className, variant, type, status, userRole, size, pill, showIcon, children, ...props }: BadgeProps) {
-  void showIcon; // Keep for API compatibility
   
   let actualVariant = variant;
   let actualContent = children;
+  let IconComponent = null;
 
   // Before 호환: type prop 지원
   if (type) {
@@ -70,22 +72,27 @@ function Badge({ className, variant, type, status, userRole, size, pill, showIco
       case 'published':
         actualVariant = 'success';
         actualContent = actualContent || '게시됨';
+        IconComponent = Check;
         break;
       case 'draft':
         actualVariant = 'warning';
         actualContent = actualContent || '임시저장';
+        IconComponent = FileText;
         break;
       case 'archived':
         actualVariant = 'secondary';
         actualContent = actualContent || '보관됨';
+        IconComponent = Clock;
         break;
       case 'pending':
         actualVariant = 'info';
         actualContent = actualContent || '대기중';
+        IconComponent = Clock;
         break;
       case 'rejected':
         actualVariant = 'danger';
         actualContent = actualContent || '거부됨';
+        IconComponent = X;
         break;
     }
   }
@@ -96,24 +103,29 @@ function Badge({ className, variant, type, status, userRole, size, pill, showIco
       case 'admin':
         actualVariant = 'danger';
         actualContent = actualContent || '관리자';
+        IconComponent = ShieldAlert;
         break;
       case 'moderator':
         actualVariant = 'warning';
         actualContent = actualContent || '운영자';
+        IconComponent = Shield;
         break;
       case 'user':
         actualVariant = 'primary';
         actualContent = actualContent || '사용자';
+        IconComponent = User;
         break;
       case 'guest':
         actualVariant = 'secondary';
         actualContent = actualContent || '게스트';
+        IconComponent = User;
         break;
     }
   }
 
   return (
     <div className={cn(badgeVariants({ variant: actualVariant, size, pill }), className)} {...props}>
+      {showIcon && IconComponent && <IconComponent className="w-3 h-3 mr-1" />}
       {actualContent}
     </div>
   )

@@ -5,20 +5,20 @@ import { cva, type VariantProps } from "class-variance-authority"
 import { cn } from "@/lib/utils"
 
 const buttonVariants = cva(
-  "inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg]:size-4 [&_svg]:shrink-0",
+  "inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-[3px] text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg]:size-4 [&_svg]:shrink-0",
   {
     variants: {
       variant: {
-        primary: "bg-primary text-primary-foreground shadow hover:bg-primary/90",
-        secondary: "bg-secondary text-secondary-foreground shadow-sm hover:bg-secondary/80",
-        danger: "bg-destructive text-destructive-foreground shadow-sm hover:bg-destructive/90",
-        success: "bg-green-600 text-white shadow-sm hover:bg-green-700",
+        primary: "bg-[#1976d2] text-white shadow hover:bg-[#1565c0]",
+        secondary: "bg-[#f5f5f5] text-[#333] border border-[#ddd] shadow-sm hover:bg-[#e0e0e0]",
+        danger: "bg-[#d32f2f] text-white shadow-sm hover:bg-[#c62828]",
+        success: "bg-[#388e3c] text-white shadow-sm hover:bg-[#2e7d32]",
         
-        default: "bg-primary text-primary-foreground shadow hover:bg-primary/90",
-        destructive: "bg-destructive text-destructive-foreground shadow-sm hover:bg-destructive/90",
+        default: "bg-[#1976d2] text-white shadow hover:bg-[#1565c0]",
+        destructive: "bg-[#d32f2f] text-white shadow-sm hover:bg-[#c62828]",
         outline: "border border-input bg-background shadow-sm hover:bg-accent hover:text-accent-foreground",
         ghost: "hover:bg-accent hover:text-accent-foreground",
-        link: "text-primary underline-offset-4 hover:underline",
+        link: "text-[#1976d2] underline-offset-4 hover:underline",
       },
       size: {
         sm: "h-8 px-3 text-xs",

@@ -1,5 +1,5 @@
 import type { Meta, StoryObj } from '@storybook/react';
-import { Badge } from '../components/atoms/Badge';
+import { Badge } from '../components/ui/badge';
 
 const meta = {
   title: 'UI/Badge',
@@ -73,34 +73,6 @@ export const Info: Story = {
 export const Outline: Story = {
   args: {
     variant: 'outline',
-    children: 'Outline',
-  },
-};
-
-export const Small: Story = {
-  args: {
-    size: 'sm',
-    children: 'Small',
-  },
-};
-
-export const Medium: Story = {
-  args: {
-    size: 'md',
-    children: 'Medium',
-  },
-};
-
-export const Large: Story = {
-  args: {
-    size: 'lg',
-    children: 'Large',
-  },
-};
-
-export const Pill: Story = {
-  args: {
-    variant: 'info',
     pill: true,
     children: 'Pill Badge',
   },
@@ -108,21 +80,21 @@ export const Pill: Story = {
 
 export const UserStatusActive: Story = {
   args: {
-    status: 'active',
+    status: 'published',
     children: 'Active',
   },
 };
 
 export const UserStatusInactive: Story = {
   args: {
-    status: 'inactive',
+    status: 'draft',
     children: 'Inactive',
   },
 };
 
 export const UserStatusSuspended: Story = {
   args: {
-    status: 'suspended',
+    status: 'rejected',
     children: 'Suspended',
   },
 };

@@ -7,8 +7,9 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import { Badge } from "../atoms/Badge";
+import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
+import { cn } from "@/lib/utils";
 
 interface Column {
   key: string;
@@ -63,7 +64,7 @@ export const Table: React.FC<TableProps> = ({
       }
       if (columnKey === 'actions') {
         return (
-          <div className="flex gap-2">
+          <div className="flex gap-2 whitespace-nowrap">
             <Button size="sm" variant="primary" onClick={() => onEdit?.(row)}>
               수정
             </Button>
@@ -92,7 +93,7 @@ export const Table: React.FC<TableProps> = ({
       }
       if (columnKey === 'actions') {
         return (
-          <div className="flex gap-2 flex-wrap">
+          <div className="flex gap-2 whitespace-nowrap">
             <Button size="sm" variant="primary" onClick={() => onEdit?.(row)}>
               수정
             </Button>
@@ -141,7 +142,10 @@ export const Table: React.FC<TableProps> = ({
           <TableRow
             key={rowIndex}
             onClick={() => onRowClick?.(row)}
-            className={hover ? "cursor-pointer" : ""}
+            className={cn(
+              hover && "cursor-pointer hover:bg-black/5",
+              striped && rowIndex % 2 === 1 && "bg-[#fafafa]"
+            )}
           >
             {columns.map((column) => (
               <TableCell key={column.key}>
