@@ -421,8 +421,6 @@ export const ManagementPage: React.FC = () => {
                   label="사용자명"
                   placeholder="사용자명을 입력하세요"
                   required
-                  width="full"
-                  fieldType="username"
                 />
                 <FormInput
                   name="email"
@@ -432,33 +430,29 @@ export const ManagementPage: React.FC = () => {
                   placeholder="이메일을 입력하세요"
                   type="email"
                   required
-                  width="full"
-                  fieldType="email"
                 />
                 <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '16px' }}>
                   <FormSelect
                     name="role"
                     value={formData.role || 'user'}
-                    onChange={(value) => setFormData({ ...formData, role: value })}
+                    onChange={(e) => setFormData({ ...formData, role: e.target.value })}
                     options={[
                       { value: 'user', label: '사용자' },
                       { value: 'moderator', label: '운영자' },
                       { value: 'admin', label: '관리자' },
                     ]}
                     label="역할"
-                    size="md"
                   />
                   <FormSelect
                     name="status"
                     value={formData.status || 'active'}
-                    onChange={(value) => setFormData({ ...formData, status: value })}
+                    onChange={(e) => setFormData({ ...formData, status: e.target.value })}
                     options={[
                       { value: 'active', label: '활성' },
                       { value: 'inactive', label: '비활성' },
                       { value: 'suspended', label: '정지' },
                     ]}
                     label="상태"
-                    size="md"
                   />
                 </div>
               </>
@@ -471,8 +465,6 @@ export const ManagementPage: React.FC = () => {
                   label="제목"
                   placeholder="게시글 제목을 입력하세요"
                   required
-                  width="full"
-                  fieldType="postTitle"
                 />
                 <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '16px' }}>
                   <FormInput
@@ -482,12 +474,11 @@ export const ManagementPage: React.FC = () => {
                     label="작성자"
                     placeholder="작성자명"
                     required
-                    width="full"
                   />
                   <FormSelect
                     name="category"
                     value={formData.category || ''}
-                    onChange={(value) => setFormData({ ...formData, category: value })}
+                    onChange={(e) => setFormData({ ...formData, category: e.target.value })}
                     options={[
                       { value: 'development', label: 'Development' },
                       { value: 'design', label: 'Design' },
@@ -495,7 +486,6 @@ export const ManagementPage: React.FC = () => {
                     ]}
                     label="카테고리"
                     placeholder="카테고리 선택"
-                    size="md"
                   />
                 </div>
                 <FormTextarea
@@ -553,8 +543,6 @@ export const ManagementPage: React.FC = () => {
                   label="사용자명"
                   placeholder="사용자명을 입력하세요"
                   required
-                  width="full"
-                  fieldType="username"
                 />
                 <FormInput
                   name="email"
@@ -564,33 +552,29 @@ export const ManagementPage: React.FC = () => {
                   placeholder="이메일을 입력하세요"
                   type="email"
                   required
-                  width="full"
-                  fieldType="email"
                 />
                 <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '16px' }}>
                   <FormSelect
                     name="role"
                     value={formData.role || 'user'}
-                    onChange={(value) => setFormData({ ...formData, role: value })}
+                    onChange={(e) => setFormData({ ...formData, role: e.target.value })}
                     options={[
                       { value: 'user', label: '사용자' },
                       { value: 'moderator', label: '운영자' },
                       { value: 'admin', label: '관리자' },
                     ]}
                     label="역할"
-                    size="md"
                   />
                   <FormSelect
                     name="status"
                     value={formData.status || 'active'}
-                    onChange={(value) => setFormData({ ...formData, status: value })}
+                    onChange={(e) => setFormData({ ...formData, status: e.target.value })}
                     options={[
                       { value: 'active', label: '활성' },
                       { value: 'inactive', label: '비활성' },
                       { value: 'suspended', label: '정지' },
                     ]}
                     label="상태"
-                    size="md"
                   />
                 </div>
               </>
@@ -603,8 +587,6 @@ export const ManagementPage: React.FC = () => {
                   label="제목"
                   placeholder="게시글 제목을 입력하세요"
                   required
-                  width="full"
-                  fieldType="postTitle"
                 />
                 <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '16px' }}>
                   <FormInput
@@ -614,12 +596,11 @@ export const ManagementPage: React.FC = () => {
                     label="작성자"
                     placeholder="작성자명"
                     required
-                    width="full"
                   />
                   <FormSelect
                     name="category"
                     value={formData.category || ''}
-                    onChange={(value) => setFormData({ ...formData, category: value })}
+                    onChange={(e) => setFormData({ ...formData, category: e.target.value })}
                     options={[
                       { value: 'development', label: 'Development' },
                       { value: 'design', label: 'Design' },
@@ -627,7 +608,6 @@ export const ManagementPage: React.FC = () => {
                     ]}
                     label="카테고리"
                     placeholder="카테고리 선택"
-                    size="md"
                   />
                 </div>
                 <FormTextarea

@@ -4,6 +4,7 @@ import {
   DialogContent,
   DialogHeader,
   DialogTitle,
+  DialogDescription,
   DialogFooter,
 } from "@/components/ui/dialog";
 
@@ -11,6 +12,7 @@ interface ModalProps {
   isOpen: boolean;
   onClose: () => void;
   title?: string;
+  description?: string;
   children: React.ReactNode;
   size?: 'small' | 'medium' | 'large';
   showFooter?: boolean;
@@ -21,6 +23,7 @@ export const Modal: React.FC<ModalProps> = ({
   isOpen,
   onClose,
   title,
+  description,
   children,
   size = 'medium',
   showFooter = false,
@@ -38,6 +41,7 @@ export const Modal: React.FC<ModalProps> = ({
         {title && (
           <DialogHeader>
             <DialogTitle>{title}</DialogTitle>
+            {description && <DialogDescription>{description}</DialogDescription>}
           </DialogHeader>
         )}
         <div>{children}</div>
