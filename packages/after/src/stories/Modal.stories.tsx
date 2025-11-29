@@ -27,159 +27,230 @@ const meta = {
 export default meta;
 type Story = StoryObj<typeof meta>;
 
-const ModalWrapper = (args: any) => {
-  const [isOpen, setIsOpen] = useState(false);
-
-  return (
-    <>
-      <Button onClick={() => setIsOpen(true)}>Open Modal</Button>
-      <Modal {...args} isOpen={isOpen} onClose={() => setIsOpen(false)} />
-    </>
-  );
-};
-
 export const Small: Story = {
-  render: () => (
-    <ModalWrapper
-      title="Small Modal"
-      size="small"
-    >
-      <p>This is a small modal with minimal content.</p>
-    </ModalWrapper>
-  ),
+  args: {
+    isOpen: false,
+    onClose: () => {},
+    title: "Small Modal",
+    size: "small",
+    children: <p>This is a small modal with minimal content.</p>,
+  },
+  render: (args) => {
+    const [isOpen, setIsOpen] = useState(false);
+    return (
+      <>
+        <Button onClick={() => setIsOpen(true)}>Open Modal</Button>
+        <Modal {...args} isOpen={isOpen} onClose={() => setIsOpen(false)} />
+      </>
+    );
+  },
 };
 
 export const Medium: Story = {
-  render: () => (
-    <ModalWrapper
-      title="Medium Modal"
-      size="medium"
-    >
-      <p>This is a medium-sized modal with some content.</p>
-      <p>It can contain multiple paragraphs and elements.</p>
-    </ModalWrapper>
-  ),
+  args: {
+    isOpen: false,
+    onClose: () => {},
+    title: "Medium Modal",
+    size: "medium",
+    children: (
+      <>
+        <p>This is a medium-sized modal with some content.</p>
+        <p>It can contain multiple paragraphs and elements.</p>
+      </>
+    ),
+  },
+  render: (args) => {
+    const [isOpen, setIsOpen] = useState(false);
+    return (
+      <>
+        <Button onClick={() => setIsOpen(true)}>Open Modal</Button>
+        <Modal {...args} isOpen={isOpen} onClose={() => setIsOpen(false)} />
+      </>
+    );
+  },
 };
 
 export const Large: Story = {
-  render: () => (
-    <ModalWrapper
-      title="Large Modal"
-      size="large"
-    >
-      <p>This is a large modal suitable for forms or detailed content.</p>
-      <FormInput
-        name="example"
-        label="Example Field"
-        placeholder="Enter something"
-      />
-    </ModalWrapper>
-  ),
+  args: {
+    isOpen: false,
+    onClose: () => {},
+    title: "Large Modal",
+    size: "large",
+    children: (
+      <>
+        <p>This is a large modal suitable for forms or detailed content.</p>
+        <FormInput
+          name="example"
+          label="Example Field"
+          placeholder="Enter something"
+          value=""
+          onChange={() => {}}
+        />
+      </>
+    ),
+  },
+  render: (args) => {
+    const [isOpen, setIsOpen] = useState(false);
+    return (
+      <>
+        <Button onClick={() => setIsOpen(true)}>Open Modal</Button>
+        <Modal {...args} isOpen={isOpen} onClose={() => setIsOpen(false)} />
+      </>
+    );
+  },
 };
 
 export const WithFooter: Story = {
-  render: () => (
-    <ModalWrapper
-      title="Modal with Footer"
-      size="medium"
-      showFooter
-      footerContent={
-        <>
-          <Button variant="secondary">Cancel</Button>
-          <Button variant="primary">Confirm</Button>
-        </>
-      }
-    >
-      <p>This modal has a footer with action buttons.</p>
-    </ModalWrapper>
-  ),
+  args: {
+    isOpen: false,
+    onClose: () => {},
+    title: "Modal with Footer",
+    size: "medium",
+    showFooter: true,
+    footerContent: (
+      <>
+        <Button variant="secondary">Cancel</Button>
+        <Button variant="default">Confirm</Button>
+      </>
+    ),
+    children: <p>This modal has a footer with action buttons.</p>,
+  },
+  render: (args) => {
+    const [isOpen, setIsOpen] = useState(false);
+    return (
+      <>
+        <Button onClick={() => setIsOpen(true)}>Open Modal</Button>
+        <Modal {...args} isOpen={isOpen} onClose={() => setIsOpen(false)} />
+      </>
+    );
+  },
 };
 
 export const WithDescription: Story = {
-  render: () => (
-    <ModalWrapper
-      title="Create New User"
-      description="Fill in the information below to create a new user account"
-      size="medium"
-      showFooter
-      footerContent={
-        <>
-          <Button variant="secondary">Cancel</Button>
-          <Button variant="primary">Create</Button>
-        </>
-      }
-    >
+  args: {
+    isOpen: false,
+    onClose: () => {},
+    title: "Create New User",
+    description: "Fill in the information below to create a new user account",
+    size: "medium",
+    showFooter: true,
+    footerContent: (
+      <>
+        <Button variant="secondary">Cancel</Button>
+        <Button variant="default">Create</Button>
+      </>
+    ),
+    children: (
       <div className="space-y-4">
         <FormInput
           name="username"
           label="Username"
           placeholder="Enter username"
           required
+          value=""
+          onChange={() => {}}
         />
         <FormInput
           name="email"
           label="Email"
-          type="email"
           placeholder="user@example.com"
           required
+          value=""
+          onChange={() => {}}
         />
       </div>
-    </ModalWrapper>
-  ),
+    ),
+  },
+  render: (args) => {
+    const [isOpen, setIsOpen] = useState(false);
+    return (
+      <>
+        <Button onClick={() => setIsOpen(true)}>Open Modal</Button>
+        <Modal {...args} isOpen={isOpen} onClose={() => setIsOpen(false)} />
+      </>
+    );
+  },
 };
 
 export const FormModal: Story = {
-  render: () => (
-    <ModalWrapper
-      title="User Information"
-      size="large"
-      showFooter
-      footerContent={
-        <>
-          <Button variant="secondary">Cancel</Button>
-          <Button variant="success">Save</Button>
-        </>
-      }
-    >
+  args: {
+    isOpen: false,
+    onClose: () => {},
+    title: "User Information",
+    size: "large",
+    showFooter: true,
+    footerContent: (
+      <>
+        <Button variant="secondary">Cancel</Button>
+        <Button variant="default">Save</Button>
+      </>
+    ),
+    children: (
       <div className="space-y-4">
         <FormInput
           name="name"
           label="Full Name"
           placeholder="John Doe"
           required
+          value=""
+          onChange={() => {}}
         />
         <FormInput
           name="email"
           label="Email Address"
-          type="email"
           placeholder="john@example.com"
           required
+          value=""
+          onChange={() => {}}
         />
         <FormInput
           name="phone"
           label="Phone Number"
           placeholder="+82 10-1234-5678"
+          value=""
+          onChange={() => {}}
         />
       </div>
-    </ModalWrapper>
-  ),
+    ),
+  },
+  render: (args) => {
+    const [isOpen, setIsOpen] = useState(false);
+    return (
+      <>
+        <Button onClick={() => setIsOpen(true)}>Open Modal</Button>
+        <Modal {...args} isOpen={isOpen} onClose={() => setIsOpen(false)} />
+      </>
+    );
+  },
 };
 
 export const ConfirmationModal: Story = {
-  render: () => (
-    <ModalWrapper
-      title="Confirm Deletion"
-      size="small"
-      showFooter
-      footerContent={
-        <>
-          <Button variant="secondary">Cancel</Button>
-          <Button variant="danger">Delete</Button>
-        </>
-      }
-    >
-      <p>Are you sure you want to delete this item?</p>
-      <p className="text-sm text-muted-foreground mt-2">This action cannot be undone.</p>
-    </ModalWrapper>
-  ),
+  args: {
+    isOpen: false,
+    onClose: () => {},
+    title: "Confirm Deletion",
+    size: "small",
+    showFooter: true,
+    footerContent: (
+      <>
+        <Button variant="secondary">Cancel</Button>
+        <Button variant="destructive">Delete</Button>
+      </>
+    ),
+    children: (
+      <>
+        <p>Are you sure you want to delete this item?</p>
+        <p className="text-sm text-muted-foreground mt-2">This action cannot be undone.</p>
+      </>
+    ),
+  },
+  render: (args) => {
+    const [isOpen, setIsOpen] = useState(false);
+    return (
+      <>
+        <Button onClick={() => setIsOpen(true)}>Open Modal</Button>
+        <Modal {...args} isOpen={isOpen} onClose={() => setIsOpen(false)} />
+      </>
+    );
+  },
 };

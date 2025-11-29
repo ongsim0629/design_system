@@ -4,7 +4,6 @@ import {
   AlertTitle,
   AlertDescription,
 } from "@/components/ui/alert";
-import { cn } from "@/lib/utils";
 
 interface AlertProps {
   children: React.ReactNode;

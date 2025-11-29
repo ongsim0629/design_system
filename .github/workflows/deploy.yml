@@ -49,10 +49,10 @@ jobs:
         run: pnpm install
 
       - name: Build After project
-        run: pnpm build:after
+        run: pnpm --filter @front_lite_chapter3-1/after build
 
       - name: Build Storybook
-        run: pnpm build-storybook
+        run: pnpm --filter @front_lite_chapter3-1/after build-storybook
 
       - name: Prepare deployment directory
         run: |

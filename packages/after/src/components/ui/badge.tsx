@@ -53,7 +53,7 @@ export interface BadgeProps
   showIcon?: boolean;
 }
 
-import { Check, X, AlertTriangle, Info, Clock, FileText, User, Shield, ShieldAlert } from "lucide-react";
+import { Check, X, Clock, FileText, User, Shield, ShieldAlert } from "lucide-react";
 
 function Badge({ className, variant, type, status, userRole, size, pill, showIcon, children, ...props }: BadgeProps) {
   
